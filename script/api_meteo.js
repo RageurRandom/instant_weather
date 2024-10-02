@@ -2,14 +2,21 @@ const TOKEN = '426a99a5e0024d3e16f3622e499809dc4d55ff6f651cf0f00a67a0353d18bd88'
 
 let request = '/api/location/city';
 
-//fetch('https://api.meteo-concept.com'+request+'?token='+TOKEN)
-fetch("https://api.meteo-concept.com/api/ephemeride/0?token=426a99a5e0024d3e16f3622e499809dc4d55ff6f651cf0f00a67a0353d18bd88") //TEST
-.then(response => {
-    if(!response.ok) throw new Error('Problème de réponse');
+async function getResponse(request){
+    let jsonDoc;
 
-    return response.json();
-}).then(data => {
-    console.log(data);
-}).catch(error => {
-    console.error('Problème de fetch', error);
-});
+    await fetch("https://api.meteo-concept.com"+request+"?token="+TOKEN) //TEST
+    .then(response => {
+        if(!response.ok) throw new Error('Problème de réponse');
+
+        jsonDoc = response.json();
+        console.log(jsonDoc + "\n\n" + response.json());
+    }).catch(error => {
+        console.error('Problème : ', error);
+    });
+
+    return jsonDoc;
+}
+
+
+console.log(getResponse("/api/ephemeride/0")+"\nDONE");
