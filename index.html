@@ -7,9 +7,43 @@
     <script defer src="script/app.js"></script>
     <link href="style/output.css" rel="stylesheet">
 </head>
-<body class="">
-    <h1 class="text-3xl font-bold underline">
-        Hello world!
-    </h1>
+<body>
+    <div>
+
+    </div>
+        <div>
+            <h1>Instant Weather</h1>
+        </div>
+        <div>
+            <h4>Votre météo</h4>
+            <h6>Choisissez votre commune et consultez les prévisions du jour</h6>
+        </div>
+
+    <div>
+        <div>
+            <div>
+                <label for="postal-code" class="">Code postal</label>
+                <input type="text" id="postal-code" 
+                class=""
+                placeholder="14000"
+                required />
+            </div>
+
+            <div>
+                <label for="city-select"></label>
+                <select name="city" id="city-select">
+                    <option value="" id="city-select">
+                        Ville
+                    </option>
+                </select>
+            </div>
+
+            <div>
+                <button type="button" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 ">
+                    Blue
+                </button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
