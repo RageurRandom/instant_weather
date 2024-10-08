@@ -614,3 +614,7 @@ video {
 .outline {
   outline-style: solid;
 }
+
+#Dropdown {
+  display:none;
+}
