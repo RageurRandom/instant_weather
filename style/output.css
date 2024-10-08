@@ -1354,6 +1354,7 @@ video {
   outline-style: solid;
 }
 
+
 .blur-\[106px\] {
   --tw-blur: blur(106px);
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
@@ -1771,4 +1772,7 @@ video {
     --tw-ring-opacity: 1;
     --tw-ring-color: rgb(59 130 246 / var(--tw-ring-opacity));
   }
+
+#Dropdown {
+  display:none;
 }
