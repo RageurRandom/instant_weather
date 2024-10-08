@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instant Weather</title>
-    <script defer src="script/app.js"></script>
+    <script defer src="script/api_commune2.js"></script>
     <link href="style/output.css" rel="stylesheet">
 </head>
 <body>
@@ -28,13 +28,48 @@
                 </div>
 
                 <div class="bg-white flex px-1 py-1.5 rounded-full shadow-md border overflow-hidden w-full max-w-xs mb-2">
-                    <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                    <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" id = "dropdown">
                         <option value="" disabled selected>Choisissez une option</option>
                         <option value="option1">Option 1</option>
                         <option value="option2">Option 2</option>
                         <option value="option3">Option 3</option>
                     </select>
                 </div>
+
+                <div>
+                  <input type="range" id="jours" name="jours" min="1" max="7" />
+                  <label for="jours">Jours</label>
+                  <p id="affichage">4</p>
+              </div>
+
+              <fieldset>
+                <legend>Choisissez des options supplémentaires:</legend>
+              
+                <div>
+                  <input type="checkbox" id="latd" name="latd"/>
+                  <label for="latd">Latitude décimale</label>
+                </div>
+              
+                <div>
+                  <input type="checkbox" id="lond" name="lond" />
+                  <label for="lond">Lontitude décimale</label>
+                </div>
+
+                <div>
+                  <input type="checkbox" id="cumul" name="cumul" />
+                  <label for="cumul">Cumul de pluie</label>
+                </div>
+
+                <div>
+                  <input type="checkbox" id="ventm" name="ventm" />
+                  <label for="ventm">Vent moyen</label>
+                </div>
+
+                <div>
+                  <input type="checkbox" id="ventd" name="ventd" />
+                  <label for="ventd">Direction du vent </label>
+                </div>
+              </fieldset>
                 
                 <button type='button' 
                     class='py-2.5 px-6 text-sm bg-blue-600 text-white rounded-full cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-indigo-700'>
