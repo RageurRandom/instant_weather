@@ -8,42 +8,41 @@
     <link href="style/output.css" rel="stylesheet">
 </head>
 <body>
-    <div>
+    <div class="font-[sans-serif] bg-gray-50 px-4 py-12">
+        <div class="text-center max-w-2xl max-md:max-w-md mx-auto">
+          <div>
+            <p class="text-sm font-bold text-blue-600 mb-4"><span class="rotate-90 inline-block mr-2">|</span> TOUTE LA METEO EN DIRECT</p>
+            <h2 class="text-gray-800 md:text-5xl text-3xl font-extrabold mb-4 md:!leading-[55px]">Instant Weather</h2>
+            <p class="mt-6 text-base text-gray-500 leading-relaxed">Choisissez votre commune et consultez les prévisions du jour</p>
+  
+            <div class="mt-12 flex flex-col items-center">
+                <label for="postal-code" class="mb-2 text-gray-800 text-sm">Entrer un code postal</label>
+                <div class="bg-white flex px-1 py-1.5 rounded-full shadow-md border overflow-hidden w-full max-w-xs mb-2">
+                    <input id="postal-code" type='email' placeholder='Entrer code postal' class="w-full text-gray-800 outline-none pl-4 text-sm" />
+                    <button type='button'
+                        class="bg-blue-600 hover:bg-blue-700 px-5 py-2.5 transition-all text-white tracking-wide text-sm rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4">
+                            <path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
 
-    </div>
-        <div>
-            <h1>Instant Weather</h1>
-        </div>
-        <div>
-            <h4>Votre météo</h4>
-            <h6>Choisissez votre commune et consultez les prévisions du jour</h6>
-        </div>
-
-    <div>
-        <div>
-            <div>
-                <label for="postal-code" class="">Code postal</label>
-                <input type="text" id="postal-code" 
-                class=""
-                placeholder="14000"
-                required />
-            </div>
-
-            <div>
-                <label for="city-select"></label>
-                <select name="city" id="city-select">
-                    <option value="" id="city-select">
-                        Ville
-                    </option>
-                </select>
-            </div>
-
-            <div>
-                <button type="button" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 ">
-                    Blue
+                <div class="bg-white flex px-1 py-1.5 rounded-full shadow-md border overflow-hidden w-full max-w-xs mb-2">
+                    <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        <option value="" disabled selected>Choisissez une option</option>
+                        <option value="option1">Option 1</option>
+                        <option value="option2">Option 2</option>
+                        <option value="option3">Option 3</option>
+                    </select>
+                </div>
+                
+                <button type='button' 
+                    class='py-2.5 px-6 text-sm bg-blue-600 text-white rounded-full cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-indigo-700'>
+                    Valider
                 </button>
-            </div>
+            </div>   
+          </div>
         </div>
-    </div>
+      </div>
 </body>
 </html>
