@@ -1,9 +1,19 @@
 const TOKEN = '426a99a5e0024d3e16f3622e499809dc4d55ff6f651cf0f00a67a0353d18bd88'; //500 appels/jour maximum
 
 const postalCodeInput = document.getElementById('postal-code');
+const validateButton = document.getElementById('validate')
 let dropDown = document.getElementById('dropdown');
 let postalCode;
 let selectedCity = 0;
+
+const cityElement = document.getElementById('city');
+const dateElement = document.getElementById('date');
+const avgTempElement = document.getElementById('avg-temp');
+const maxTempElement = document.getElementById('max-temp');
+const minTempElement = document.getElementById('min-temp');
+const windElement = document.getElementById('wind');
+const humidityElement = document.getElementById('humidity');
+
 
 document.addEventListener('DOMContentLoaded', () => {
     postalCodeInput.addEventListener('input', () => {
@@ -63,6 +73,10 @@ postalCodeInput.addEventListener('keypress', function (e) {
     }
 });
 
+validateButton.addEventListener('click', 
+
+)
+
 async function getResponse(insee){
     let jsonDoc;
     try {
@@ -80,9 +94,21 @@ async function getResponse(insee){
 
 
 
+
+
 getResponse(35238).then(data => {
     const forecast = data.forecast;
     if (forecast) {
+
+        minTempElement.textContent = forecast.tmin + '°';
+        maxTempElement.textContent = forecast.tmax + '°';
+        avgTempElement.textContent = Math.round((forecast.tmin + forecast.tmax) / 2) + '°';
+        cityElement.textContent = data.city.name;
+        windElement.textContent = forecast.wind10m + ' k/h';
+        
+        
+        
+
         console.log(forecast.tmin + "\nDONE");
         console.log(forecast.tmax + "\nDONE");
         console.log(forecast.probarain + "\nDONE");
