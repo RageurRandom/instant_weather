@@ -1,90 +1,139 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Instant Weather</title>
     <script defer src="script/api_commune.js"></script>
     <script defer src="script/api_meteo.js"></script>
-    <link href="style/output.css" rel="stylesheet">
-</head>
-<body>
+    <link href="style/output.css" rel="stylesheet" />
+  </head>
+
+  <body>
     <div class="font-[sans-serif] bg-gray-50 px-4 py-12 w-full h-screen">
-        <div class="text-center max-w-2xl max-md:max-w-md mx-auto">
-            <div>
-                <p class="text-sm font-bold text-blue-600 mb-4"><span class="rotate-90 inline-block mr-2">|</span> TOUTE LA METEO EN DIRECT</p>
-                <h2 class="text-gray-800 md:text-5xl text-3xl font-extrabold mb-4 md:!leading-[55px]">Instant Weather</h2>
-                <p class="mt-6 text-base text-gray-500 leading-relaxed">Choisissez votre commune et consultez les prévisions du jour</p>
+      <div class="text-center max-w-2xl max-md:max-w-md mx-auto">
+        <div>
+          <p class="text-sm font-bold text-blue-600 mb-4">
+            <span class="rotate-90 inline-block mr-2">|</span> TOUTE LA METEO EN
+            DIRECT
+          </p>
+          <h2
+            class="text-gray-800 md:text-5xl text-3xl font-extrabold mb-4 md:!leading-[55px]"
+          >
+            Instant Weather
+          </h2>
+          <p class="mt-6 text-base text-gray-500 leading-relaxed">
+            Choisissez votre commune et consultez les prévisions du jour
+          </p>
 
-                <div class="mt-12 flex flex-col items-center">
-                    <label for="postal-code" class="mb-2 text-gray-800 text-sm">Entrer un code postal</label>
-                    <div class="bg-white flex px-1 py-1.5 rounded-full shadow-md border overflow-hidden w-full max-w-xs mb-2">
-                        <input id="postal-code" type='email' placeholder='Entrer code postal' class="w-full text-gray-800 outline-none pl-4 text-sm" />
-                        <button type='button'
-                            class="bg-blue-600 hover:bg-blue-700 px-5 py-2.5 transition-all text-white tracking-wide text-sm rounded-full">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4">
-                                <path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" />
-                            </svg>
-                        </button>
-                    </div>
-
-                    <div class="bg-white flex px-1 py-1.5 rounded-full shadow-md border overflow-hidden w-full max-w-xs mb-2">
-                        <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" id="dropdown">
-                            
-                        </select>
-                    </div>
-                    
-                    <button type='button'
-                        class='py-2.5 px-6 text-sm bg-blue-600 text-white rounded-full cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-indigo-700'
-                        id="validate">
-                        Valider
-                    </button>
-
-                </div>   
+          <div class="mt-12 flex flex-col items-center">
+            <label for="postal-code" class="mb-2 text-gray-800 text-sm"
+              >Entrer un code postal</label
+            >
+            <div
+              class="bg-white flex px-1 py-1.5 rounded-full shadow-md border overflow-hidden w-full max-w-xs mb-2"
+            >
+              <input
+                id="postal-code"
+                type="email"
+                placeholder="Entrer code postal"
+                class="w-full text-gray-800 outline-none pl-4 text-sm"
+              />
+              <button
+                type="button"
+                class="bg-blue-600 hover:bg-blue-700 px-5 py-2.5 transition-all text-white tracking-wide text-sm rounded-full"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                  class="w-4 h-4"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </button>
             </div>
-        </div>
 
-        <div id="card">
-            <div class="min-h-screen flex items-center justify-center">
-                <div class="flex flex-col bg-white rounded p-4 w-full max-w-xs">
-                    <div class="font-bold text-xl" id="city">Ville</div>
-                    <div class="text-sm text-gray-500" id="date">Date</div>
-                    <div
-                        class="mt-6 text-6xl self-center inline-flex items-center justify-center rounded-lg text-indigo-400 h-24 w-24">
-                        <svg class="w-32 h-32" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path>
-                        </svg>
-                    </div>
-                    <div class="flex flex-row items-center justify-center mt-6">
-                        <div class="font-medium text-6xl" id="avg-temp">24°</div>
-                        <div class="flex flex-col items-center ml-6">
-                            <div>Cloudy</div>
-                            <div class="mt-1">
-                                <span class="text-sm"><i class="far fa-long-arrow-up"></i></span>
-                                <span class="text-sm font-light text-gray-500" id="max-temp">28°C</span>
-                            </div>
-                            <div>
-                                <span class="text-sm"><i class="far fa-long-arrow-down"></i></span>
-                                <span class="text-sm font-light text-gray-500" id="min-temp">20°C</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex flex-row justify-between mt-6">
-                        <div class="flex flex-col items-center">
-                            <div class="font-medium text-sm">Vent</div>
-                            <div class="text-sm text-gray-500" id="wind">9k/h</div>
-                        </div>
-                        <div class="flex flex-col items-center">
-                            <div class="font-medium text-sm">Humidity</div>
-                            <div class="text-sm text-gray-500" id="humidity">..%</div>
-                        </div>
-                    </div>
-                </div>
+            <div
+              class="bg-white flex px-1 py-1.5 rounded-full shadow-md border overflow-hidden w-full max-w-xs mb-2"
+            >
+              <select
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                id="dropdown"
+              ></select>
             </div>
-        </div>
 
+            <button
+              type="button"
+              class="py-2.5 px-6 text-sm bg-blue-600 text-white rounded-full cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-indigo-700"
+              id="validate"
+            >
+              Valider
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-center p-4">
+        <div class="flex flex-col bg-white rounded p-4 w-full max-w-xs">
+          <div class="font-bold text-xl" id="city">Ville</div>
+          <div class="text-sm text-gray-500" id="date">Date</div>
+          <div
+            class="mt-6 text-6xl self-center inline-flex items-center justify-center rounded-lg text-indigo-400 h-24 w-24"
+          >
+            <svg
+              class="w-32 h-32"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
+              ></path>
+            </svg>
+          </div>
+          <div class="flex flex-row items-center justify-center mt-6">
+            <div class="font-medium text-6xl" id="avg-temp">24°</div>
+            <div class="flex flex-col items-center ml-6">
+              <div>Cloudy</div>
+              <div class="mt-1">
+                <span class="text-sm"
+                  ><i class="far fa-long-arrow-up"></i
+                ></span>
+                <span class="text-sm font-light text-gray-500" id="max-temp"
+                  >28°C</span
+                >
+              </div>
+              <div>
+                <span class="text-sm"
+                  ><i class="far fa-long-arrow-down"></i
+                ></span>
+                <span class="text-sm font-light text-gray-500" id="min-temp"
+                  >20°C</span
+                >
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-row justify-between mt-6">
+            <div class="flex flex-col items-center">
+              <div class="font-medium text-sm">Vent</div>
+              <div class="text-sm text-gray-500" id="wind">9k/h</div>
+            </div>
+            <div class="flex flex-col items-center">
+              <div class="font-medium text-sm">Humidity</div>
+              <div class="text-sm text-gray-500" id="humidity">..%</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-</body>
+  </body>
 </html>

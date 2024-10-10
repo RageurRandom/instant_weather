@@ -73,10 +73,6 @@ postalCodeInput.addEventListener('keypress', function (e) {
     }
 });
 
-validateButton.addEventListener('click', 
-
-)
-
 async function getResponse(insee){
     let jsonDoc;
     try {
@@ -92,29 +88,16 @@ async function getResponse(insee){
     return jsonDoc;
 }
 
-
-
-
-
-getResponse(35238).then(data => {
-    const forecast = data.forecast;
-    if (forecast) {
-
-        minTempElement.textContent = forecast.tmin + '°';
-        maxTempElement.textContent = forecast.tmax + '°';
-        avgTempElement.textContent = Math.round((forecast.tmin + forecast.tmax) / 2) + '°';
-        cityElement.textContent = data.city.name;
-        windElement.textContent = forecast.wind10m + ' k/h';
-        
-        
-        
-
-        console.log(forecast.tmin + "\nDONE");
-        console.log(forecast.tmax + "\nDONE");
-        console.log(forecast.probarain + "\nDONE");
-        console.log(forecast.sun_hours + "\nDONE");
-    } else {
-        console.log("Prévisions non disponibles");
-    }
-});
-
+validateButton.addEventListener('click', function () {
+    getResponse(dropDown.value).then(data => {
+        const forecast = data.forecast;
+        if (forecast) {
+    
+            minTempElement.textContent = forecast.tmin + '°';
+            maxTempElement.textContent = forecast.tmax + '°';
+            avgTempElement.textContent = Math.round((forecast.tmin + forecast.tmax) / 2) + '°';
+            cityElement.textContent = data.city.name;
+            windElement.textContent = forecast.wind10m + ' k/h';
+        }
+    })
+})
