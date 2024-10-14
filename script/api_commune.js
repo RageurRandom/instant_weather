@@ -98,6 +98,8 @@ validateButton.addEventListener('click', function () {
             avgTempElement.textContent = Math.round((forecast.tmin + forecast.tmax) / 2) + '°';
             cityElement.textContent = data.city.name;
             windElement.textContent = forecast.wind10m + ' k/h';
+            humidityElement.textContent = forecast.probarain + ' %';
+            console.log(forecast);
         }
     })
 })
