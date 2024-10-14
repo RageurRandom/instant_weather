@@ -99,7 +99,7 @@ validateButton.addEventListener('click', function () {
             cityElement.textContent = data.city.name;
             windElement.textContent = forecast.wind10m + ' k/h';
             humidityElement.textContent = forecast.probarain + ' %';
-            console.log(forecast);
+            //console.log(forecast);
         }
     })
 })
