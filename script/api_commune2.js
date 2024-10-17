@@ -158,16 +158,16 @@ function makeMeteoCard(data, date) {
         <div
         class="mt-6 text-6xl self-center inline-flex items-center justify-center rounded-lg text-indigo-400 h-24 w-24"
         >
-        <svg
+        <!--<svg
             class="w-32 h-32"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
-        >
-            <img src="img/lightning.png" alt="clouds">
+        > -->
+            <img src="${getCardImage(forecast.weather)}" alt="clouds">
 
-        </svg>
+        <!-- </svg> -->
         </div>
         <div class="flex flex-row items-center justify-center mt-6">
         <div class="font-medium text-6xl">${Math.round((forecast.tmin + forecast.tmax) / 2)}°</div>
