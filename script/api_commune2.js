@@ -5,7 +5,7 @@ const validateButton = document.getElementById('validate')
 let dropDown = document.getElementById('dropdown');
 let postalCode;
 let selectedCity = 0;
-let dayRange = 0;
+
 
 const rangeInput = document.getElementById('jours');
 const affichage = document.getElementById('affichage');
@@ -20,6 +20,7 @@ const meteoCardContainer = document.getElementById("test-meteo-card");
 //const windElement = document.getElementById('wind');
 //const humidityElement = document.getElementById('humidity');
 
+let dayRange = rangeInput.value;
 
 document.addEventListener('DOMContentLoaded', () => {
     postalCodeInput.addEventListener('input', () => {
@@ -152,10 +153,10 @@ postalCodeInput.addEventListener('keypress', function (e) {
     }
 });
 
-async function getResponse(insee) {
+async function getResponse(insee, day) {
     let jsonDoc;
     try {
-        const response = await fetch("https://api.meteo-concept.com/api/forecast/daily/" + dayRange + "?token=" + TOKEN + "&insee=" + insee) //TEST TODO
+        const response = await fetch("https://api.meteo-concept.com/api/forecast/daily/" + day + "?token=" + TOKEN + "&insee=" + insee) //TEST TODO
         console.log(response);
         if (!response.ok) throw new Error('Problème de réponse:' + response.status);
         jsonDoc = await response.json();
@@ -169,29 +170,36 @@ async function getResponse(insee) {
 }
 
 validateButton.addEventListener('click', function () {
-    getResponse(dropDown.value).then(data => {
-        const forecast = data.forecast;
-        if (forecast) {
-            meteoCardContainer.childNodes.forEach((value, key, parent)=>value.remove());
+    meteoCardContainer.childNodes.forEach((value, key, parent)=>value.remove()); // retire les cartes existantes avant d'en créer des nouvelles
+    let date = new Date(Date.now());
+    for (let i = 0; i < dayRange; i++) {
+        getResponse(dropDown.value, i).then(data => {
+            const forecast = data.forecast;
+            if (forecast) {
+                
 
-            makeMeteoCard(data, new Date(Date.now()).toLocaleDateString('fr-FR', {
-                weekday: "long",
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-                timeZone: 'UTC'
-            }));
-            console.log("TEST");
+                makeMeteoCard(data, new Date(date).toLocaleDateString('fr-FR', {
+                    weekday: "long",
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                    timeZone: 'UTC'
+                }));
+                console.log("TEST");
 
-            // minTempElement.textContent = forecast.tmin + '°';
-            // maxTempElement.textContent = forecast.tmax + '°';
-            // avgTempElement.textContent = Math.round((forecast.tmin + forecast.tmax) / 2) + '°';
-            // cityElement.textContent = data.city.name;
-            // windElement.textContent = forecast.wind10m + ' k/h';
-            // humidityElement.textContent = forecast.probarain + ' %';
-            // console.log(data);
-        }
-    }).catch(
-        (data) => console.log("problème : " + data)
-    );
+                // minTempElement.textContent = forecast.tmin + '°';
+                // maxTempElement.textContent = forecast.tmax + '°';
+                // avgTempElement.textContent = Math.round((forecast.tmin + forecast.tmax) / 2) + '°';
+                // cityElement.textContent = data.city.name;
+                // windElement.textContent = forecast.wind10m + ' k/h';
+                // humidityElement.textContent = forecast.probarain + ' %';
+                // console.log(data);
+            }
+        }).catch(
+            (data) => console.log("problème : " + data)
+        );
+
+        date = date + 1;
+    }
+        
 })
