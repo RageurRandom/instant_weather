@@ -157,7 +157,7 @@ async function getResponse(insee, day) {
     let jsonDoc;
     try {
         const response = await fetch("https://api.meteo-concept.com/api/forecast/daily/" + day + "?token=" + TOKEN + "&insee=" + insee) //TEST TODO
-        console.log(response);
+        //console.log(response);
         if (!response.ok) throw new Error('Problème de réponse:' + response.status);
         jsonDoc = await response.json();
         //console.log(jsonDoc);
@@ -169,16 +169,17 @@ async function getResponse(insee, day) {
     return jsonDoc;
 }
 
-validateButton.addEventListener('click', function () {
+validateButton.addEventListener('click', async function () {
     meteoCardContainer.childNodes.forEach((value, key, parent)=>value.remove()); // retire les cartes existantes avant d'en créer des nouvelles
-    let date = new Date(Date.now());
+    let date = new Date();
     for (let i = 0; i < dayRange; i++) {
-        getResponse(dropDown.value, i).then(data => {
+        
+        await getResponse(dropDown.value, i).then(data => {
             const forecast = data.forecast;
             if (forecast) {
                 
-
-                makeMeteoCard(data, new Date(date).toLocaleDateString('fr-FR', {
+                
+                makeMeteoCard(data, date.toLocaleDateString('fr-FR', {
                     weekday: "long",
                     year: "numeric",
                     month: "long",
@@ -198,8 +199,10 @@ validateButton.addEventListener('click', function () {
         }).catch(
             (data) => console.log("problème : " + data)
         );
-
-        date = date + 1;
+        date.setDate(date.getDate()+1);
+                console.log(i);
+                console.log(date);
+        //date.setDate(date.getDate() + 1);
     }
         
 })
