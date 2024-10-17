@@ -136,50 +136,60 @@
           </div>
         </div>
       </div>
-    </div>
 
-    
-    <div>
-      <input type="range" id="jours" name="jours" min="1" max="7" />
-      <label for="jours">Jours</label>
-      <p id="affichage">4</p>
-  </div>
+      <div class="p-4 bg-gray-100 rounded-lg shadow-md">
+        <!-- Range input for days -->
+        <div class="mb-4">
+          <label for="jours" class="block text-sm font-medium text-gray-700">Jours:</label>
+          <input type="range" id="jours" name="jours" min="1" max="7" class="w-full mt-1" />
+          <p id="affichage" class="text-sm text-gray-500">4</p>
+        </div>
+      
+        <!-- Button to toggle visibility of additional options -->
+        <button id="toggleOptionsButton" class="py-2.5 px-6 text-sm bg-blue-600 text-white rounded-full cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-indigo-700">
+          Afficher/Masquer les options
+        </button>
+      
+        <!-- Checkboxes for additional options (Initially hidden) -->
+        <div id="optionsDiv" class="mb-4">
+          <fieldset>
+            <legend class="text-sm font-medium text-gray-700">Choisissez des options supplémentaires:</legend>
+            
+            <div class="mt-2">
+              <input type="checkbox" id="latd" name="latd" class="mr-2" />
+              <label for="latd" class="text-sm text-gray-700">Latitude décimale</label>
+            </div>
+            <div class="mt-2">
+              <input type="checkbox" id="lond" name="lond" class="mr-2" />
+              <label for="lond" class="text-sm text-gray-700">Longitude décimale</label>
+            </div>
+            <div class="mt-2">
+              <input type="checkbox" id="cumul" name="cumul" class="mr-2" />
+              <label for="cumul" class="text-sm text-gray-700">Cumul de pluie</label>
+            </div>
+            <div class="mt-2">
+              <input type="checkbox" id="ventm" name="ventm" class="mr-2" />
+              <label for="ventm" class="text-sm text-gray-700">Vent moyen</label>
+            </div>
+            <div class="mt-2">
+              <input type="checkbox" id="ventd" name="ventd" class="mr-2" />
+              <label for="ventd" class="text-sm text-gray-700">Direction du vent</label>
+            </div>
+          </fieldset>
+        </div>
+      
+        <!-- Button to display selected options -->
+        <button id="displayButton" class="py-2.5 px-6 text-sm bg-blue-600 text-white rounded-full cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-indigo-700">
+          Afficher les résultats
+        </button>
+      
+        <!-- Div to display results -->
+        <div id="test" class="mt-4 p-4 bg-white rounded-lg shadow-sm">
+          <p class="text-gray-700">test</p>
+        </div>
+      </div>
 
-  <fieldset>
-    <legend>Choisissez des options supplémentaires:</legend>
-  
-    <div>
-      <input type="checkbox" id="latd" name="latd"/>
-      <label for="latd">Latitude décimale</label>
-    </div>
-  
-    <div>
-      <input type="checkbox" id="lond" name="lond" />
-      <label for="lond">Lontitude décimale</label>
-    </div>
 
-    <div>
-      <input type="checkbox" id="cumul" name="cumul" />
-      <label for="cumul">Cumul de pluie</label>
     </div>
-
-    <div>
-      <input type="checkbox" id="ventm" name="ventm" />
-      <label for="ventm">Vent moyen</label>
-    </div>
-
-    <div>
-      <input type="checkbox" id="ventd" name="ventd" />
-      <label for="ventd">Direction du vent </label>
-    </div>
-  </fieldset>
-    
-  <div id = 'test'>
-    test
-  </div>
-</div>   
-</div>
-</div>
-</div>
   </body>
 </html>

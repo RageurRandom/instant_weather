@@ -78,4 +78,3 @@ postalCodeInput.addEventListener('keypress', function (e) {
         }
     }
 });
-
