@@ -1,11 +1,19 @@
+const TOKEN = '426a99a5e0024d3e16f3622e499809dc4d55ff6f651cf0f00a67a0353d18bd88'; //500 appels/jour maximum
+
 const postalCodeInput = document.getElementById('postal-code');
-let para = document.getElementById('affichage');
-let para2 = document.getElementById('affichage2');
-let affichageDiv = document.getElementById('affichage3');
-let para3 = document.getElementById('affichage4');
-let dropDown = document.getElementById('Dropdown');
+const validateButton = document.getElementById('validate')
+let dropDown = document.getElementById('dropdown');
 let postalCode;
 let selectedCity = 0;
+
+const cityElement = document.getElementById('city');
+const dateElement = document.getElementById('date');
+const avgTempElement = document.getElementById('avg-temp');
+const maxTempElement = document.getElementById('max-temp');
+const minTempElement = document.getElementById('min-temp');
+const windElement = document.getElementById('wind');
+const humidityElement = document.getElementById('humidity');
+
 
 document.addEventListener('DOMContentLoaded', () => {
     postalCodeInput.addEventListener('input', () => {
@@ -15,7 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
             alert("Veuillez entrer un code postal valide à 5 chiffres entre 00000 et 99999.");
             postalCodeInput.value = '';
         }
-        para2.innerHTML = postalCode.length;
     });
 });
 
@@ -29,7 +36,6 @@ function addOption(value, text) {
 dropDown.addEventListener('change', function () {
     selectedCity = dropDown.value;
     var text = dropDown.options[dropDown.selectedIndex].text;
-    para3.innerHTML = text + " " + selectedCity;
 });
 
 async function fetchByPostalCode(postalCode) {
@@ -41,22 +47,12 @@ async function fetchByPostalCode(postalCode) {
 
         if (data.length === 1) {
             const commune = data[0];
-            affichageDiv.innerHTML = "<h2>Commune associée:</h2>";
-            affichageDiv.innerHTML += `
-                <p><strong>${commune.nom}</strong> (Code INSEE: ${commune.code})</p>
-            `;
             addOption(commune.code, commune.nom);
             selectedCity = commune.code;
         } else if (data.length > 1) {
-            affichageDiv.innerHTML = `<h2>Communes associées:</h2>`;
             data.forEach(commune => {
-                affichageDiv.innerHTML += `
-                    <p><strong>${commune.nom}</strong> (Code INSEE: ${commune.code})</p>
-                `;
                 addOption(commune.code, commune.nom);
             });
-        } else {
-            affichageDiv.innerHTML = `<p>Aucune commune trouvée pour ce code postal.</p>`;
         }
     } catch (error) {
         console.error('Erreur lors de la récupération des données:', error);
@@ -71,11 +67,39 @@ postalCodeInput.addEventListener('keypress', function (e) {
             postalCodeInput.value = '';
         } else {
             dropDown.innerHTML = '';
-            para.innerHTML = postalCode;
             fetchByPostalCode(postalCode);
             dropDown.style.display = "block";
-            para3.innerHTML = selectedCity;
         }
     }
 });
 
+async function getResponse(insee){
+    let jsonDoc;
+    try {
+    const response = await fetch("https://api.meteo-concept.com/api/forecast/daily/0?token="+TOKEN+"&insee="+insee) //TEST
+    if(!response.ok) throw new Error('Problème de réponse:' + response.status);
+    jsonDoc = await response.json();
+        //console.log(jsonDoc);
+    }
+    catch(error) {
+        console.error('Problème : ', error);
+    };
+
+    return jsonDoc;
+}
+
+validateButton.addEventListener('click', function () {
+    getResponse(dropDown.value).then(data => {
+        const forecast = data.forecast;
+        if (forecast) {
+    
+            minTempElement.textContent = forecast.tmin + '°';
+            maxTempElement.textContent = forecast.tmax + '°';
+            avgTempElement.textContent = Math.round((forecast.tmin + forecast.tmax) / 2) + '°';
+            cityElement.textContent = data.city.name;
+            windElement.textContent = forecast.wind10m + ' k/h';
+            humidityElement.textContent = forecast.probarain + ' %';
+            //console.log(forecast);
+        }
+    })
+})
