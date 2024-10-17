@@ -13,6 +13,8 @@ const affichage = document.getElementById('affichage');
 const cityElement = document.getElementById('city');
 const dateElement = document.getElementById('date');
 const avgTempElement = document.getElementById('avg-temp');
+
+const meteoCardContainer = document.getElementById("test-meteo-card");
 //const maxTempElement = document.getElementById('max-temp');
 //const minTempElement = document.getElementById('min-temp');
 //const windElement = document.getElementById('wind');
@@ -54,7 +56,7 @@ function addOption(value, text) {
 function makeMeteoCard(data, date) {
     const forecast = data.forecast;
 
-    validateButton.insertAdjacentHTML("afterend" ,`<div class="flex items-center justify-center p-4">
+    meteoCardContainer.insertAdjacentHTML("beforeend" ,`<div class="flex items-center justify-center p-4">
     <div class="flex flex-col bg-white rounded p-4 w-full max-w-xs">
         <div class="font-bold text-xl" >${data.city.name}</div>
         <div class="text-sm text-gray-500" id="date">${date}</div>
@@ -170,6 +172,8 @@ validateButton.addEventListener('click', function () {
     getResponse(dropDown.value).then(data => {
         const forecast = data.forecast;
         if (forecast) {
+            meteoCardContainer.childNodes.forEach((value, key, parent)=>value.remove());
+
             makeMeteoCard(data, new Date(Date.now()).toLocaleDateString('fr-FR', {
                 weekday: "long",
                 year: "numeric",
