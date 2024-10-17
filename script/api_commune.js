@@ -13,6 +13,9 @@ const maxTempElement = document.getElementById('max-temp');
 const minTempElement = document.getElementById('min-temp');
 const windElement = document.getElementById('wind');
 const humidityElement = document.getElementById('humidity');
+const cardImg = document.getElementById('img-card');
+const weatherElement = document.getElementById('weather');
+
 
 
 document.addEventListener('DOMContentLoaded', () => {
