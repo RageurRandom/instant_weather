@@ -42,6 +42,8 @@ async function fetchByPostalCode(postalCode) {
     try {
         const response = await fetch(`https://geo.api.gouv.fr/communes?codePostal=${postalCode}`);
         const data = await response.json();
+
+        console.log(data);
         
         dropDown.innerHTML = '';
 

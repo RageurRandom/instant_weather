@@ -1,3 +1,4 @@
+const TOKEN = '426a99a5e0024d3e16f3622e499809dc4d55ff6f651cf0f00a67a0353d18bd88';
 
 const postalCodeInput = document.getElementById('postal-code');
 const validateButton = document.getElementById('validate')
@@ -93,7 +94,8 @@ postalCodeInput.addEventListener('keypress', function (e) {
 async function getResponse(insee){
     let jsonDoc;
     try {
-    const response = await fetch("https://api.meteo-concept.com/api/forecast/daily/"+dayRange+"?token="+TOKEN+"&insee="+insee) //TEST
+    const response = await fetch("https://api.meteo-concept.com/api/forecast/daily/"+dayRange+"?token="+TOKEN+"&insee="+insee) //TEST TODO
+    console.log(response);
     if(!response.ok) throw new Error('Problème de réponse:' + response.status);
     jsonDoc = await response.json();
         //console.log(jsonDoc);
@@ -105,9 +107,9 @@ async function getResponse(insee){
     return jsonDoc;
 }
 
-validateButton.addEventListener('click', function () {
-    getResponse(dropDown.value).then(data => {
-        const forecast = data.forecast;
+validateButton.addEventListener('click', function () { //TODO
+    getResponse(dropDown.value).then(data => {//TODO
+        const forecast = data.forecast; //TODO
         if (forecast) {
     
             minTempElement.textContent = forecast.tmin + '°';
