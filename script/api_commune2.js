@@ -10,6 +10,12 @@ let selectedCity = 0;
 const rangeInput = document.getElementById('jours');
 const affichage = document.getElementById('affichage');
 
+const latd = document.getElementById('latd');
+const lond = document.getElementById('lond');
+const cumul = document.getElementById('cumul');
+const ventm = document.getElementById('ventm');
+const ventd = document.getElementById('ventd');
+
 const cityElement = document.getElementById('city');
 const dateElement = document.getElementById('date');
 const avgTempElement = document.getElementById('avg-temp');
@@ -57,7 +63,7 @@ function addOption(value, text) {
 function makeMeteoCard(data, date) {
     const forecast = data.forecast;
 
-    meteoCardContainer.insertAdjacentHTML("beforeend" ,`<div class="flex items-center justify-center p-4">
+    let card = `<div class="flex items-center justify-center p-4">
     <div class="flex flex-col bg-white rounded p-4 w-full max-w-xs">
         <div class="font-bold text-xl" >${data.city.name}</div>
         <div class="text-sm text-gray-500" id="date">${date}</div>
@@ -106,9 +112,42 @@ function makeMeteoCard(data, date) {
             <div class="font-medium text-sm">Probabilité de pluie</div>
             <div class="text-sm text-gray-500">${forecast.probarain} %</div>
         </div>
-        </div>
+        </div>`;
+
+    let checkedOptions = [];
+
+    if (latd.checked) checkedOptions.push('latitude');
+    if (lond.checked) checkedOptions.push('longitude');
+    if (cumul.checked) checkedOptions.push('rr10');
+    if (ventm.checked) checkedOptions.push('wind10m');
+    if (ventd.checked) checkedOptions.push('dirwind10m');
+
+    /*if (checkedOptions.length > 0) {
+    alert('Vous avez sélectionné : ' + checkedOptions.join(', '));
+    } else {
+    alert('Aucune option sélectionnée');
+    }*/
+    test.innerHTML = ''; // Vider le contenu précédent
+    checkedOptions.forEach(option => {
+        if (forecast[option] !== undefined) { // Vérifie si la propriété existe dans forecast
+            card += `<div class="flex flex-col items-center">
+            <div class="font-medium text-sm">${option}</div>
+            <div class="text-sm text-gray-500">${forecast[option]}</div>
+        </div>`;
+        }
+    })
+
+
+    card += `    
     </div>
-    </div>`);
+    </div>`;
+
+
+    meteoCardContainer.insertAdjacentHTML("beforeend", card);
+
+
+
+    
 }
 
 
@@ -169,24 +208,24 @@ async function getResponse(insee, day) {
     return jsonDoc;
 }
 
-function clearChildren(htmlElt){
-    while(htmlElt.firstChild){
+function clearChildren(htmlElt) {
+    while (htmlElt.firstChild) {
         htmlElt.removeChild(htmlElt.firstChild);
     }
 }
 
 validateButton.addEventListener('click', async function () {
-    
+
     clearChildren(meteoCardContainer);
 
     let date = new Date();
     for (let i = 0; i < dayRange; i++) {
-        
+
         await getResponse(dropDown.value, i).then(data => {
             const forecast = data.forecast;
             if (forecast) {
-                
-                
+
+
                 makeMeteoCard(data, date.toLocaleDateString('fr-FR', {
                     weekday: "long",
                     year: "numeric",
@@ -194,47 +233,17 @@ validateButton.addEventListener('click', async function () {
                     day: "numeric",
                     timeZone: 'UTC'
                 }));
-                console.log("TEST");
 
-                // minTempElement.textContent = forecast.tmin + '°';
-                // maxTempElement.textContent = forecast.tmax + '°';
-                // avgTempElement.textContent = Math.round((forecast.tmin + forecast.tmax) / 2) + '°';
-                // cityElement.textContent = data.city.name;
-                // windElement.textContent = forecast.wind10m + ' k/h';
-                // humidityElement.textContent = forecast.probarain + ' %';
-                // console.log(data);
+                // OPTIONS
 
-                const latd = document.getElementById('latd').checked;
-                const lond = document.getElementById('lond').checked;
-                const cumul = document.getElementById('cumul').checked;
-                const ventm = document.getElementById('ventm').checked;
-                const ventd = document.getElementById('ventd').checked;
 
-                let checkedOptions = [];
-
-                if(latd) checkedOptions.push('latitude');
-                if(lond) checkedOptions.push('longitude');
-                if(cumul) checkedOptions.push('rr10');
-                if(ventm) checkedOptions.push('wind10m');
-                if(ventd) checkedOptions.push('dirwind10m');
-
-                /*if (checkedOptions.length > 0) {
-                alert('Vous avez sélectionné : ' + checkedOptions.join(', '));
-                } else {
-                alert('Aucune option sélectionnée');
-                }*/
-                test.innerHTML = ''; // Vider le contenu précédent
-                checkedOptions.forEach(option => {
-                    if (forecast[option] !== undefined) { // Vérifie si la propriété existe dans forecast
-                        test.innerHTML += option + ': ' + forecast[option] + '<br>';
-                    }
-                })
             }
         }).catch(
             (data) => console.log("problème : " + data)
         );
-        date.setDate(date.getDate()+1);
-                console.log(i);
-                console.log(date);
+        date.setDate(date.getDate() + 1);
+        console.log(i);
+        console.log(date);
         //date.setDate(date.getDate() + 1);
-    }});
+    }
+});
