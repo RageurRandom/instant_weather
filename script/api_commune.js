@@ -1,7 +1,9 @@
 const TOKEN = '426a99a5e0024d3e16f3622e499809dc4d55ff6f651cf0f00a67a0353d18bd88'; //500 appels/jour maximum
 
 const postalCodeInput = document.getElementById('postal-code');
-const validateButton = document.getElementById('validate')
+const validateButton = document.getElementById('validate');
+const searchPostalCode = document.getElementById('search-postal-code');
+
 let dropDown = document.getElementById('dropdown');
 let postalCode;
 let selectedCity = 0;
@@ -27,10 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function addOption(value, text) {
-    const option = document.createElement('option'); 
-    option.value = value;                            
-    option.text = text;                              
-    dropDown.appendChild(option);                    
+    const option = document.createElement('option');
+    option.value = value;
+    option.text = text;
+    dropDown.appendChild(option);
 }
 
 dropDown.addEventListener('change', function () {
@@ -42,7 +44,7 @@ async function fetchByPostalCode(postalCode) {
     try {
         const response = await fetch(`https://geo.api.gouv.fr/communes?codePostal=${postalCode}`);
         const data = await response.json();
-        
+
         dropDown.innerHTML = '';
 
         if (data.length === 1) {
@@ -59,29 +61,34 @@ async function fetchByPostalCode(postalCode) {
     }
 }
 
+function refreshPostalCode() {
+    postalCode = postalCodeInput.value;
+    if (postalCode.length !== 5) {
+        alert("Veuillez entrer un code postal valide à 5 chiffres entre 00000 et 99999.");
+        postalCodeInput.value = '';
+    } else {
+        dropDown.innerHTML = '';
+        fetchByPostalCode(postalCode);
+        dropDown.style.display = "block";
+    }
+}
+
+
 postalCodeInput.addEventListener('keypress', function (e) {
     if (e.key === 'Enter') {
-        postalCode = postalCodeInput.value;
-        if (postalCode.length !== 5) {
-            alert("Veuillez entrer un code postal valide à 5 chiffres entre 00000 et 99999.");
-            postalCodeInput.value = '';
-        } else {
-            dropDown.innerHTML = '';
-            fetchByPostalCode(postalCode);
-            dropDown.style.display = "block";
-        }
+        refreshPostalCode();
     }
 });
 
-async function getResponse(insee){
+async function getResponse(insee) {
     let jsonDoc;
     try {
-    const response = await fetch("https://api.meteo-concept.com/api/forecast/daily/0?token="+TOKEN+"&insee="+insee) //TEST
-    if(!response.ok) throw new Error('Problème de réponse:' + response.status);
-    jsonDoc = await response.json();
+        const response = await fetch("https://api.meteo-concept.com/api/forecast/daily/0?token=" + TOKEN + "&insee=" + insee) //TEST
+        if (!response.ok) throw new Error('Problème de réponse:' + response.status);
+        jsonDoc = await response.json();
         //console.log(jsonDoc);
     }
-    catch(error) {
+    catch (error) {
         console.error('Problème : ', error);
     };
 
@@ -92,7 +99,7 @@ validateButton.addEventListener('click', function () {
     getResponse(dropDown.value).then(data => {
         const forecast = data.forecast;
         if (forecast) {
-    
+
             minTempElement.textContent = forecast.tmin + '°';
             maxTempElement.textContent = forecast.tmax + '°';
             avgTempElement.textContent = Math.round((forecast.tmin + forecast.tmax) / 2) + '°';
@@ -102,4 +109,6 @@ validateButton.addEventListener('click', function () {
             //console.log(forecast);
         }
     })
-})
+});
+
+searchPostalCode.addEventListener('click',()=>refreshPostalCode());
