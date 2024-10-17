@@ -15,7 +15,9 @@ const maxTempElement = document.getElementById('max-temp');
 const minTempElement = document.getElementById('min-temp');
 const windElement = document.getElementById('wind');
 const humidityElement = document.getElementById('humidity');
+const test = document.getElementById('test');
 
+const submitButton = document.getElementById('submitBtn');
 
 document.addEventListener('DOMContentLoaded', () => {
     postalCodeInput.addEventListener('input', () => {
@@ -114,6 +116,33 @@ validateButton.addEventListener('click', function () {
             cityElement.textContent = data.city.name;
             windElement.textContent = forecast.wind10m + ' k/h';
             humidityElement.textContent = forecast.probarain + ' %';
+
+            const latd = document.getElementById('latd').checked;
+            const lond = document.getElementById('lond').checked;
+            const cumul = document.getElementById('cumul').checked;
+            const ventm = document.getElementById('ventm').checked;
+            const ventd = document.getElementById('ventd').checked;
+
+            let checkedOptions = [];
+
+            if(latd) checkedOptions.push('latitude');
+            if(lond) checkedOptions.push('longitude');
+            if(cumul) checkedOptions.push('rr10');
+            if(ventm) checkedOptions.push('wind10m');
+            if(ventd) checkedOptions.push('dirwind10m');
+
+            /*if (checkedOptions.length > 0) {
+            alert('Vous avez sélectionné : ' + checkedOptions.join(', '));
+            } else {
+            alert('Aucune option sélectionnée');
+            }*/
+            test.innerHTML = ''; // Vider le contenu précédent
+            checkedOptions.forEach(option => {
+                if (forecast[option] !== undefined) { // Vérifie si la propriété existe dans forecast
+                    test.innerHTML += option + ': ' + forecast[option] + '<br>';
+                }
+            })
+
             //console.log(forecast);
         }
     })
