@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Instant Weather</title>
     <script defer src="script/api_commune2.js"></script>
-    <script defer src="script/api_meteo.js"></script>
     <link href="style/output.css" rel="stylesheet" />
   </head>
 
@@ -79,7 +78,11 @@
         </div>
       </div>
 
-      <div class="flex items-center justify-center p-4">
+      <div id="test-meteo-card">
+          
+      </div>
+
+      <!--<div class="flex items-center justify-center p-4">
         <div class="flex flex-col bg-white rounded p-4 w-full max-w-xs">
           <div class="font-bold text-xl" id="city">Ville</div>
           <div class="text-sm text-gray-500" id="date">Date</div>
@@ -94,12 +97,7 @@
               xmlns="http://www.w3.org/2000/svg"
             >
               <img src="img/lightning.png" alt="clouds">
-              <!-- <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
-              ></path> -->
+              
             </svg>
           </div>
           <div class="flex flex-row items-center justify-center mt-6">
@@ -135,7 +133,8 @@
             </div>
           </div>
         </div>
-      </div>
+      </div>-->
+    </div>
 
       <div class="p-4 bg-gray-100 rounded-lg shadow-md">
         <!-- Range input for days -->
