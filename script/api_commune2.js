@@ -4,6 +4,7 @@ const validateButton = document.getElementById('validate')
 let dropDown = document.getElementById('dropdown');
 let postalCode;
 let selectedCity = 0;
+let dayRange = 0;
 
 const rangeInput = document.getElementById('jours');
 const affichage = document.getElementById('affichage');
@@ -38,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     rangeInput.addEventListener('input', () => {
         affichage.innerHTML = rangeInput.value;
+        dayRange = rangeInput.value;
     });
 });
 
@@ -91,7 +93,7 @@ postalCodeInput.addEventListener('keypress', function (e) {
 async function getResponse(insee){
     let jsonDoc;
     try {
-    const response = await fetch("https://api.meteo-concept.com/api/forecast/daily/0?token="+TOKEN+"&insee="+insee) //TEST
+    const response = await fetch("https://api.meteo-concept.com/api/forecast/daily/"+dayRange+"?token="+TOKEN+"&insee="+insee) //TEST
     if(!response.ok) throw new Error('Problème de réponse:' + response.status);
     jsonDoc = await response.json();
         //console.log(jsonDoc);
@@ -114,7 +116,7 @@ validateButton.addEventListener('click', function () {
             cityElement.textContent = data.city.name;
             windElement.textContent = forecast.wind10m + ' k/h';
             humidityElement.textContent = forecast.probarain + ' %';
-            //console.log(forecast);
+            console.log(forecast);
         }
     })
 })
