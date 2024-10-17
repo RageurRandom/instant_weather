@@ -262,15 +262,7 @@ async function fetchByPostalCode(postalCode) {
 
 postalCodeInput.addEventListener('keypress', function (e) {
     if (e.key === 'Enter') {
-        postalCode = postalCodeInput.value;
-        if (postalCode.length !== 5) {
-            alert("Veuillez entrer un code postal valide à 5 chiffres entre 00000 et 99999.");
-            postalCodeInput.value = '';
-        } else {
-            dropDown.innerHTML = '';
-            fetchByPostalCode(postalCode);
-            dropDown.style.display = "block";
-        }
+        refreshPostalCode();
     }
 });
 
@@ -331,7 +323,17 @@ validateButton.addEventListener('click', async function () {
 });
 
 
-
+function refreshPostalCode() {
+    postalCode = postalCodeInput.value;
+    if (postalCode.length !== 5) {
+        alert("Veuillez entrer un code postal valide à 5 chiffres entre 00000 et 99999.");
+        postalCodeInput.value = '';
+    } else {
+        dropDown.innerHTML = '';
+        fetchByPostalCode(postalCode);
+        dropDown.style.display = "block";
+    }
+}
 
 validateButton.addEventListener('click', function () {
     getResponse(dropDown.value).then(data => {
@@ -403,3 +405,5 @@ function getCardImage(weather) {
         return 'img/rain/39.png';
     }
 }
+
+searchPostalCode.addEventListener('click',()=>refreshPostalCode());
