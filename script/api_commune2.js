@@ -78,7 +78,7 @@ function makeMeteoCard(data, date) {
         <div class="flex flex-row items-center justify-center mt-6">
         <div class="font-medium text-6xl">${Math.round((forecast.tmin + forecast.tmax) / 2)}°</div>
         <div class="flex flex-col items-center ml-6">
-            <div>Cloudy</div>
+            <div>${"Cloudy" /*A CHANGER*/}</div>
             <div class="mt-1">
             <span class="text-sm"
                 ><i class="far fa-long-arrow-up"></i
@@ -169,8 +169,16 @@ async function getResponse(insee, day) {
     return jsonDoc;
 }
 
+function clearChildren(htmlElt){
+    while(htmlElt.firstChild){
+        htmlElt.removeChild(htmlElt.firstChild);
+    }
+}
+
 validateButton.addEventListener('click', async function () {
-    meteoCardContainer.childNodes.forEach((value, key, parent)=>value.remove()); // retire les cartes existantes avant d'en créer des nouvelles
+    
+    clearChildren(meteoCardContainer);
+
     let date = new Date();
     for (let i = 0; i < dayRange; i++) {
         
