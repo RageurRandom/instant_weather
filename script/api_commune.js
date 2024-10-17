@@ -88,7 +88,6 @@ async function getResponse(insee){
 
     return jsonDoc;
 }
-
 validateButton.addEventListener('click', function () {
     getResponse(dropDown.value).then(data => {
         const forecast = data.forecast;
@@ -101,70 +100,59 @@ validateButton.addEventListener('click', function () {
             humidityElement.textContent = forecast.probarain + ' %';
             console.log(forecast.weather);
 
-            //update card image
-
-            //sun
-            if(forecast.weather == 0){
-                cardImg.src = 'img/sun/26.png';
-            } 
-            
-            //sun and cloud
-            else if (forecast.weather >= 1 && forecast.weather <= 2){
-                cardImg.src = 'img/cloud/27.png';
-            } 
-
-            //cloud
-            else if (forecast.weather >= 3 && forecast.weather <= 5){
-                cardImg.src = 'img/cloud/35.png';
-            } 
-            
-            //fog
-            else if (forecast.weather >= 6 && forecast.weather <= 9){
-                //need another icon
-                cardImg.src = 'img/cloud/35.png';
-            } 
-            
-            //rain
-            else if ( (forecast.weather >= 10 && forecast.weather <= 16) || (forecast.weather >= 40 && forecast.weather <= 48) || (forecast.weather >= 210 && forecast.weather <= 212) ){
-                cardImg.src = 'img/cloud/7.png';
-            } 
-            
-            //snow
-            else if ( (forecast.weather >= 20 && forecast.weather <= 22) || (forecast.weather >= 60 && forecast.weather <= 68) || (forecast.weather >= 220 && forecast.weather <= 222)){
-                cardImg.src = 'img/cloud/23.png';
-            } 
-            
-            //snow and rain
-            else if ( (forecast.weather >= 30 && forecast.weather <= 32) || (forecast.weather >= 70 && forecast.weather <= 78) || (forecast.weather >= 230 && forecast.weather <= 232)){
-                cardImg.src = 'img/cloud/22.png';
-            } 
-            
-            //ligthning
-            else if ( forecast.weather >= 100 && forecast.weather <= 108){
-                cardImg.src = 'img/cloud/12.png';
-            }
-
-            //ligthning and snow
-            else if ( (forecast.weather >= 120 && forecast.weather <= 128) || forecast.weather == 142 ){
-                cardImg.src = 'img/cloud/25.png';
-            }
-
-            //ligthning snow and rain
-            else if ( (forecast.weather >= 130 && forecast.weather <= 138) || forecast.weather == 141 ){
-                cardImg.src = 'img/cloud/24.png';
-            }
-
-            //ligthning rain
-            else if ( forecast.weather == 140){
-                cardImg.src = 'img/cloud/17.png';
-            }
-
-            //hail
-            else if ( forecast.weather == 235){
-                cardImg.src = 'img/rain/39.png';
-            }
-
-            
+            // Appel de la fonction pour mettre à jour l'icône
+            updateCardImage(forecast.weather);
         }
-    })
-})
+    });
+});
+
+// Fonction pour changer l'image de la carte en fonction du type de météo
+function updateCardImage(weather) {
+    if (weather == 0) {
+        cardImg.src = 'img/sun/26.png'; // soleil
+    } 
+    // soleil et nuages
+    else if (weather >= 1 && weather <= 2) {
+        cardImg.src = 'img/cloud/27.png';
+    } 
+    // nuages
+    else if (weather >= 3 && weather <= 5) {
+        cardImg.src = 'img/cloud/35.png';
+    } 
+    // brouillard
+    else if (weather >= 6 && weather <= 9) {
+        cardImg.src = 'img/cloud/35.png'; // besoin d'une autre icône
+    } 
+    // pluie
+    else if ((weather >= 10 && weather <= 16) || (weather >= 40 && weather <= 48) || (weather >= 210 && weather <= 212)) {
+        cardImg.src = 'img/cloud/7.png';
+    } 
+    // neige
+    else if ((weather >= 20 && weather <= 22) || (weather >= 60 && weather <= 68) || (weather >= 220 && weather <= 222)) {
+        cardImg.src = 'img/cloud/23.png';
+    } 
+    // pluie et neige
+    else if ((weather >= 30 && weather <= 32) || (weather >= 70 && weather <= 78) || (weather >= 230 && weather <= 232)) {
+        cardImg.src = 'img/cloud/22.png';
+    } 
+    // éclairs
+    else if (weather >= 100 && weather <= 108) {
+        cardImg.src = 'img/cloud/12.png';
+    } 
+    // éclairs et neige
+    else if ((weather >= 120 && weather <= 128) || weather == 142) {
+        cardImg.src = 'img/cloud/25.png';
+    } 
+    // éclairs, neige et pluie
+    else if ((weather >= 130 && weather <= 138) || weather == 141) {
+        cardImg.src = 'img/cloud/24.png';
+    } 
+    // éclairs et pluie
+    else if (weather == 140) {
+        cardImg.src = 'img/cloud/17.png';
+    } 
+    // grêle
+    else if (weather == 235) {
+        cardImg.src = 'img/rain/39.png';
+    }
+}
