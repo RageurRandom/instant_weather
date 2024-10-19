@@ -2,6 +2,7 @@ const TOKEN =
   "426a99a5e0024d3e16f3622e499809dc4d55ff6f651cf0f00a67a0353d18bd88";
 
 const postalCodeInput = document.getElementById("postal-code");
+const postalCodeButton = document.getElementById("search-postal-code");
 const validateButton = document.getElementById("validate");
 let dropDown = document.getElementById("dropdown");
 let postalCode;
@@ -288,6 +289,8 @@ postalCodeInput.addEventListener("keypress", function (e) {
     refreshPostalCode();
   }
 });
+
+postalCodeButton.addEventListener('click', ()=>refreshPostalCode());
 
 async function getResponse(insee, day) {
   let jsonDoc;
