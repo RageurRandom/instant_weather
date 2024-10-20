@@ -22,123 +22,124 @@ const dateElement = document.getElementById("date");
 const avgTempElement = document.getElementById("avg-temp");
 
 const meteoCardContainer = document.getElementById("test-meteo-card");
+const changeSearchButton = document.getElementById("change-search");
+
 
 // Dictionnaire des descriptions des codes météo
 const weatherDescriptions = {
-    0: "Soleil",
-    1: "Peu nuageux",
-    2: "Ciel voilé",
-    3: "Nuageux",
-    4: "Très nuageux",
-    5: "Couvert",
-    6: "Brouillard",
-    7: "Brouillard givrant",
-    
-    // Rain-related codes
-    10: "Pluie légère",
-    11: "Pluie modérée",
-    12: "Pluie forte",
-    13: "Pluie verglaçante",
-    14: "Pluie verglaçante",
-    15: "Pluie verglaçante",
-    16: "Bruine",
-    
-    // Snow-related codes
-    20: "Neige légère",
-    21: "Neige modérée",
-    22: "Neige forte",
-  
-    // Mixed rain and snow
-    30: "Pluie/neige légères",
-    31: "Pluie/neige modérées",
-    32: "Pluie/neige fortes",
-  
-    // Rain showers
-    40: "Averses légères",
-    41: "Averses",
-    42: "Averses fortes",
-    43: "Averses légères",
-    44: "Averses",
-    45: "Averses fortes",
-    46: "Averses fréquentes",
-    47: "Averses fréquentes",
-    48: "Averses fréquentes",
-  
-    // Snow showers
-    60: "Averses de neige légères",
-    61: "Averses de neige",
-    62: "Averses de neige fortes",
-    63: "Averses légères",
-    64: "Averses de neige",
-    65: "Averses de neige fortes",
-    66: "Averses fréquentes",
-    67: "Averses fréquentes",
-    68: "Averses fortes et fréquentes",
-  
-    // Mixed rain and snow showers
-    70: "Averses pluie/neige légères",
-    71: "Averses pluie/neige",
-    72: "Averses pluie/neige fortes",
-    73: "Averses légères",
-    74: "Averses pluie/neige",
-    75: "Averses fortes",
-    76: "Averses fréquentes",
-    77: "Averses fréquentes",
-    78: "Averses fortes et fréquentes",
-  
-    // Thunderstorms
-    100: "Orages faibles",
-    101: "Orages",
-    102: "Orages forts",
-    103: "Orages faibles",
-    104: "Orages",
-    105: "Orages forts",
-    106: "Orages fréquents",
-    107: "Orages fréquents",
-    108: "Orages fréquents",
-    
-    // Thunderstorms with snow/sleet
-    120: "Orages avec neige/grésil",
-    121: "Orages neige/grésil",
-    122: "Orages neige/grésil",
-    123: "Orages neige/grésil",
-    124: "Orages neige/grésil",
-    125: "Orages neige/grésil",
-    126: "Orages fréquents neige/grésil",
-    127: "Orages fréquents",
-    128: "Orages fréquents",
-  
-    // Mixed rain/snow and thunderstorms
-    130: "Orages pluie/neige",
-    131: "Orages pluie/neige",
-    132: "Orages forts pluie/neige",
-    133: "Orages pluie/neige",
-    134: "Orages pluie/neige",
-    135: "Orages forts pluie/neige",
-    136: "Orages fréquents",
-    137: "Orages fréquents",
-    138: "Orages fréquents",
-  
-    140: "Pluies orageuses",
-    141: "Pluie/neige orageuses",
-    142: "Neige orageuse",
-  
-    // Intermittent rain/snow
-    210: "Pluie intermittente",
-    211: "Pluie intermittente",
-    212: "Pluie forte",
-    220: "Neige intermittente",
-    221: "Neige intermittente",
-    222: "Neige forte",
-  
-    // Mixed intermittent rain/snow
-    230: "Pluie/neige intermittentes",
-    231: "Pluie/neige intermittentes",
-    232: "Pluie/neige intermittentes",
-    
-    235: "Averses de grêle",
-  };
-  
+  0: "Soleil",
+  1: "Peu nuageux",
+  2: "Ciel voilé",
+  3: "Nuageux",
+  4: "Très nuageux",
+  5: "Couvert",
+  6: "Brouillard",
+  7: "Brouillard givrant",
+
+  // Rain-related codes
+  10: "Pluie légère",
+  11: "Pluie modérée",
+  12: "Pluie forte",
+  13: "Pluie verglaçante",
+  14: "Pluie verglaçante",
+  15: "Pluie verglaçante",
+  16: "Bruine",
+
+  // Snow-related codes
+  20: "Neige légère",
+  21: "Neige modérée",
+  22: "Neige forte",
+
+  // Mixed rain and snow
+  30: "Pluie/neige légères",
+  31: "Pluie/neige modérées",
+  32: "Pluie/neige fortes",
+
+  // Rain showers
+  40: "Averses légères",
+  41: "Averses",
+  42: "Averses fortes",
+  43: "Averses légères",
+  44: "Averses",
+  45: "Averses fortes",
+  46: "Averses fréquentes",
+  47: "Averses fréquentes",
+  48: "Averses fréquentes",
+
+  // Snow showers
+  60: "Averses de neige légères",
+  61: "Averses de neige",
+  62: "Averses de neige fortes",
+  63: "Averses légères",
+  64: "Averses de neige",
+  65: "Averses de neige fortes",
+  66: "Averses fréquentes",
+  67: "Averses fréquentes",
+  68: "Averses fortes et fréquentes",
+
+  // Mixed rain and snow showers
+  70: "Averses pluie/neige légères",
+  71: "Averses pluie/neige",
+  72: "Averses pluie/neige fortes",
+  73: "Averses légères",
+  74: "Averses pluie/neige",
+  75: "Averses fortes",
+  76: "Averses fréquentes",
+  77: "Averses fréquentes",
+  78: "Averses fortes et fréquentes",
+
+  // Thunderstorms
+  100: "Orages faibles",
+  101: "Orages",
+  102: "Orages forts",
+  103: "Orages faibles",
+  104: "Orages",
+  105: "Orages forts",
+  106: "Orages fréquents",
+  107: "Orages fréquents",
+  108: "Orages fréquents",
+
+  // Thunderstorms with snow/sleet
+  120: "Orages avec neige/grésil",
+  121: "Orages neige/grésil",
+  122: "Orages neige/grésil",
+  123: "Orages neige/grésil",
+  124: "Orages neige/grésil",
+  125: "Orages neige/grésil",
+  126: "Orages fréquents neige/grésil",
+  127: "Orages fréquents",
+  128: "Orages fréquents",
+
+  // Mixed rain/snow and thunderstorms
+  130: "Orages pluie/neige",
+  131: "Orages pluie/neige",
+  132: "Orages forts pluie/neige",
+  133: "Orages pluie/neige",
+  134: "Orages pluie/neige",
+  135: "Orages forts pluie/neige",
+  136: "Orages fréquents",
+  137: "Orages fréquents",
+  138: "Orages fréquents",
+
+  140: "Pluies orageuses",
+  141: "Pluie/neige orageuses",
+  142: "Neige orageuse",
+
+  // Intermittent rain/snow
+  210: "Pluie intermittente",
+  211: "Pluie intermittente",
+  212: "Pluie forte",
+  220: "Neige intermittente",
+  221: "Neige intermittente",
+  222: "Neige forte",
+
+  // Mixed intermittent rain/snow
+  230: "Pluie/neige intermittentes",
+  231: "Pluie/neige intermittentes",
+  232: "Pluie/neige intermittentes",
+
+  235: "Averses de grêle",
+};
 
 let dayRange = rangeInput.value;
 
@@ -224,7 +225,8 @@ function makeMeteoCard(data, date) {
             <div class="font-medium text-sm">Probabilité de pluie</div>
             <div class="text-sm text-gray-500">${forecast.probarain} %</div>
         </div>
-        </div>`;
+        </div>
+        `;
 
   let checkedOptions = [];
 
@@ -290,7 +292,7 @@ postalCodeInput.addEventListener("keypress", function (e) {
   }
 });
 
-postalCodeButton.addEventListener('click', ()=>refreshPostalCode());
+postalCodeButton.addEventListener("click", () => refreshPostalCode());
 
 async function getResponse(insee, day) {
   let jsonDoc;
@@ -321,6 +323,13 @@ function clearChildren(htmlElt) {
 }
 
 validateButton.addEventListener("click", async function () {
+  const isPostalCodeFilled = postalCodeInput.value.trim().length === 5;
+  const isDropdownSelected = dropDown.value !== "";
+
+  console.log(isPostalCodeFilled , isDropdownSelected);
+
+  if (isPostalCodeFilled && isDropdownSelected) {
+
   clearChildren(meteoCardContainer);
 
   let date = new Date();
@@ -349,7 +358,7 @@ validateButton.addEventListener("click", async function () {
     console.log(date);
     //date.setDate(date.getDate() + 1);
   }
-});
+}});
 
 function refreshPostalCode() {
   postalCode = postalCodeInput.value;
@@ -366,27 +375,37 @@ function refreshPostalCode() {
 }
 
 validateButton.addEventListener("click", function () {
-  getResponse(dropDown.value).then((data) => {
-    const forecast = data.forecast;
-    if (forecast) {
-      minTempElement.textContent = forecast.tmin + "°";
-      maxTempElement.textContent = forecast.tmax + "°";
-      avgTempElement.textContent =
-        Math.round((forecast.tmin + forecast.tmax) / 2) + "°";
-      cityElement.textContent = data.city.name;
-      windElement.textContent = forecast.wind10m + " k/h";
-      humidityElement.textContent = forecast.probarain + " %";
+  const isPostalCodeFilled = postalCodeInput.value.trim().length === 5;
+  const isDropdownSelected = dropDown.value !== "";
 
-      // Update weather description
-      weatherElement.textContent =
-        weatherDescriptions[forecast.weather] || "Description indisponible";
+  console.log(isPostalCodeFilled , isDropdownSelected);
 
-      // Appel de la fonction pour mettre à jour l'icône
-      updateCardImage(forecast.weather);
+  if (isPostalCodeFilled && isDropdownSelected) {
+    changeSearchButton.classList.remove("hidden");
+    getResponse(dropDown.value).then((data) => {
+      const forecast = data.forecast;
+      if (forecast) {
+        minTempElement.textContent = forecast.tmin + "°";
+        maxTempElement.textContent = forecast.tmax + "°";
+        avgTempElement.textContent =
+          Math.round((forecast.tmin + forecast.tmax) / 2) + "°";
+        cityElement.textContent = data.city.name;
+        windElement.textContent = forecast.wind10m + " k/h";
+        humidityElement.textContent = forecast.probarain + " %";
 
-      console.log(forecast);
-    }
-  });
+        // Update weather description
+        weatherElement.textContent =
+          weatherDescriptions[forecast.weather] || "Description indisponible";
+
+        // Appel de la fonction pour mettre à jour l'icône
+        updateCardImage(forecast.weather);
+
+        console.log(data);
+      }
+    });
+  } else {
+    changeSearchButton.classList.add("hidden");
+  }
 });
 
 // Fonction pour obtenir l'image de la carte en fonction du type de météo
