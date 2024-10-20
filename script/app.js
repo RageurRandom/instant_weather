@@ -26,7 +26,7 @@ const closeModalButton = document.getElementById("closeModalButton");
 const modal = document.getElementById("modal");
 
 let dropDown = document.getElementById("dropdown");
-let postalCode;
+let postalletCode;
 let selectedCity = 0;
 let dayRange = rangeInput.value;
 
@@ -485,3 +485,57 @@ validateButton.addEventListener("click", async function () {
     }
   }
 });
+
+// Save values to localStorage
+function saveToLocalStorage() {
+  localStorage.setItem("postalCode", postalCodeInput.value);    // Store postal code
+  localStorage.setItem("rangeInput", rangeInput.value);         // Store range input (number of days)
+  localStorage.setItem("dayRange", dayRange);                   // Store dayRange value
+  localStorage.setItem("latd", latd.checked);                   // Store if latitude is checked
+  localStorage.setItem("lond", lond.checked);                   // Store if longitude is checked
+  localStorage.setItem("cumul", cumul.checked);                 // Store if rainfall is checked
+  localStorage.setItem("ventm", ventm.checked);                 // Store if wind speed is checked
+  localStorage.setItem("ventd", ventd.checked);                 // Store if wind direction is checked
+  localStorage.setItem("selectedCity", dropDown.value);         // Store dropdown selected city
+}
+
+// Load values from localStorage and populate inputs
+function loadFromLocalStorage() {
+  // Retrieve and set values, if they exist in localStorage
+  const savedPostalCode = localStorage.getItem("postalCode");
+  const savedRangeInput = localStorage.getItem("rangeInput");
+  const savedDayRange = localStorage.getItem("dayRange");
+  const savedLatd = localStorage.getItem("latd");
+  const savedLond = localStorage.getItem("lond");
+  const savedCumul = localStorage.getItem("cumul");
+  const savedVentm = localStorage.getItem("ventm");
+  const savedVentd = localStorage.getItem("ventd");
+  const savedSelectedCity = localStorage.getItem("selectedCity");
+
+  if (savedPostalCode) postalCodeInput.value = savedPostalCode;
+  if (savedRangeInput) rangeInput.value = savedRangeInput;
+  if (savedDayRange) dayRange = savedDayRange;                 // Retrieve dayRange value
+  if (savedLatd !== null) latd.checked = JSON.parse(savedLatd); // Convert back to boolean
+  if (savedLond !== null) lond.checked = JSON.parse(savedLond); // Convert back to boolean
+  if (savedCumul !== null) cumul.checked = JSON.parse(savedCumul); // Convert back to boolean
+  if (savedVentm !== null) ventm.checked = JSON.parse(savedVentm); // Convert back to boolean
+  if (savedVentd !== null) ventd.checked = JSON.parse(savedVentd); // Convert back to boolean
+  if (savedSelectedCity) dropDown.value = savedSelectedCity;
+}
+
+// Save changes to localStorage when inputs are changed
+postalCodeInput.addEventListener("input", saveToLocalStorage);
+rangeInput.addEventListener("input", () => {
+  dayRange = rangeInput.value;  // Update dayRange when the range input changes
+  saveToLocalStorage();
+});
+latd.addEventListener("change", saveToLocalStorage);
+lond.addEventListener("change", saveToLocalStorage);
+cumul.addEventListener("change", saveToLocalStorage);
+ventm.addEventListener("change", saveToLocalStorage);
+ventd.addEventListener("change", saveToLocalStorage);
+dropDown.addEventListener("change", saveToLocalStorage);
+
+// Load the saved values when the page is loaded
+document.addEventListener("DOMContentLoaded", loadFromLocalStorage);
+
