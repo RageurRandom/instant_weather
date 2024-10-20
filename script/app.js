@@ -1,5 +1,5 @@
 const TOKEN =
-  "426a99a5e0024d3e16f3622e499809dc4d55ff6f651cf0f00a67a0353d18bd88";
+  "9e12b2d7af5e0c28b318d9e1e7e18725cfc8deb51d921289b78e60f5cecd363a";
 
 const postalCodeInput = document.getElementById("postal-code");
 const postalCodeButton = document.getElementById("search-postal-code");
