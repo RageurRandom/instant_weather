@@ -4,12 +4,9 @@ const TOKEN =
 const postalCodeInput = document.getElementById("postal-code");
 const postalCodeButton = document.getElementById("search-postal-code");
 const validateButton = document.getElementById("validate");
-let dropDown = document.getElementById("dropdown");
-let postalCode;
-let selectedCity = 0;
 
 const rangeInput = document.getElementById("jours");
-const affichage = document.getElementById("affichage");
+const display = document.getElementById("affichage");
 
 const latd = document.getElementById("latd");
 const lond = document.getElementById("lond");
@@ -24,6 +21,14 @@ const avgTempElement = document.getElementById("avg-temp");
 const meteoCardContainer = document.getElementById("test-meteo-card");
 const changeSearchButton = document.getElementById("change-search");
 
+const openModalButton = document.getElementById("openModalButton");
+const closeModalButton = document.getElementById("closeModalButton");
+const modal = document.getElementById("modal");
+
+let dropDown = document.getElementById("dropdown");
+let postalCode;
+let selectedCity = 0;
+let dayRange = rangeInput.value;
 
 // Dictionnaire des descriptions des codes météo
 const weatherDescriptions = {
@@ -141,35 +146,9 @@ const weatherDescriptions = {
   235: "Averses de grêle",
 };
 
-let dayRange = rangeInput.value;
-
-document.addEventListener("DOMContentLoaded", () => {
-  postalCodeInput.addEventListener("input", () => {
-    postalCode = postalCodeInput.value;
-
-    if (postalCode.length > 5 || postalCode < 0 || postalCode > 99999) {
-      alert(
-        "Veuillez entrer un code postal valide à 5 chiffres entre 00000 et 99999."
-      );
-      postalCodeInput.value = "";
-    }
-  });
-});
-
-dropDown.addEventListener("change", function () {
-  selectedCity = dropDown.value;
-  var text = dropDown.options[dropDown.selectedIndex].text;
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-  affichage.innerHTML = rangeInput.value;
-
-  rangeInput.addEventListener("input", () => {
-    affichage.innerHTML = rangeInput.value;
-    dayRange = rangeInput.value;
-  });
-});
-
+/*
+  ajoute une option au dropdown de séléction de la ville
+*/
 function addOption(value, text) {
   const option = document.createElement("option");
   option.value = value;
@@ -177,6 +156,9 @@ function addOption(value, text) {
   dropDown.appendChild(option);
 }
 
+/*
+  Créé une carte météo en html et la mets dans la page
+*/
 function makeMeteoCard(data, date) {
   const forecast = data.forecast;
 
@@ -188,7 +170,9 @@ function makeMeteoCard(data, date) {
         class="mt-6 text-6xl self-center inline-flex items-center justify-center rounded-lg text-indigo-400 h-24 w-24"
         >
         
-        <img src="${getCardImage(forecast.weather)}" alt="${weatherDescriptions[forecast.weather]}">
+        <img src="${getCardImage(forecast.weather)}" alt="${
+    weatherDescriptions[forecast.weather]
+  }">
 
         
         </div>
@@ -258,11 +242,9 @@ function makeMeteoCard(data, date) {
   meteoCardContainer.insertAdjacentHTML("beforeend", card);
 }
 
-dropDown.addEventListener("change", function () {
-  selectedCity = dropDown.value;
-  var text = dropDown.options[dropDown.selectedIndex].text;
-});
-
+/*
+  retourne la liste des communes correspondant au code postal en paramètre
+*/
 async function fetchByPostalCode(postalCode) {
   try {
     const response = await fetch(
@@ -286,14 +268,9 @@ async function fetchByPostalCode(postalCode) {
   }
 }
 
-postalCodeInput.addEventListener("keypress", function (e) {
-  if (e.key === "Enter") {
-    refreshPostalCode();
-  }
-});
-
-postalCodeButton.addEventListener("click", () => refreshPostalCode());
-
+/*
+  renvoie 
+*/
 async function getResponse(insee, day) {
   let jsonDoc;
   try {
@@ -316,50 +293,20 @@ async function getResponse(insee, day) {
   return jsonDoc;
 }
 
+/*
+  retire tous les enfants d'un élément html
+  utilisé pour retirer les cartes météos lors d'une nouvelle recherche
+*/
 function clearChildren(htmlElt) {
   while (htmlElt.firstChild) {
     htmlElt.removeChild(htmlElt.firstChild);
   }
 }
 
-validateButton.addEventListener("click", async function () {
-  const isPostalCodeFilled = postalCodeInput.value.trim().length === 5;
-  const isDropdownSelected = dropDown.value !== "";
 
-  console.log(isPostalCodeFilled , isDropdownSelected);
-
-  if (isPostalCodeFilled && isDropdownSelected) {
-
-  clearChildren(meteoCardContainer);
-
-  let date = new Date();
-  for (let i = 0; i < dayRange; i++) {
-    await getResponse(dropDown.value, i)
-      .then((data) => {
-        const forecast = data.forecast;
-        if (forecast) {
-          makeMeteoCard(
-            data,
-            date.toLocaleDateString("fr-FR", {
-              weekday: "long",
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-              timeZone: "UTC",
-            })
-          );
-
-          // OPTIONS
-        }
-      })
-      .catch((data) => console.log("problème : " + data));
-    date.setDate(date.getDate() + 1);
-    console.log(i);
-    console.log(date);
-    //date.setDate(date.getDate() + 1);
-  }
-}});
-
+/*
+  mets les communes ayant le code postal recherché dans le dropdown
+*/
 function refreshPostalCode() {
   postalCode = postalCodeInput.value;
   if (postalCode.length !== 5) {
@@ -373,40 +320,6 @@ function refreshPostalCode() {
     dropDown.style.display = "block";
   }
 }
-
-validateButton.addEventListener("click", function () {
-  const isPostalCodeFilled = postalCodeInput.value.trim().length === 5;
-  const isDropdownSelected = dropDown.value !== "";
-
-  console.log(isPostalCodeFilled , isDropdownSelected);
-
-  if (isPostalCodeFilled && isDropdownSelected) {
-    changeSearchButton.classList.remove("hidden");
-    getResponse(dropDown.value).then((data) => {
-      const forecast = data.forecast;
-      if (forecast) {
-        minTempElement.textContent = forecast.tmin + "°";
-        maxTempElement.textContent = forecast.tmax + "°";
-        avgTempElement.textContent =
-          Math.round((forecast.tmin + forecast.tmax) / 2) + "°";
-        cityElement.textContent = data.city.name;
-        windElement.textContent = forecast.wind10m + " k/h";
-        humidityElement.textContent = forecast.probarain + " %";
-
-        // Update weather description
-        weatherElement.textContent =
-          weatherDescriptions[forecast.weather] || "Description indisponible";
-
-        // Appel de la fonction pour mettre à jour l'icône
-        updateCardImage(forecast.weather);
-
-        console.log(data);
-      }
-    });
-  } else {
-    changeSearchButton.classList.add("hidden");
-  }
-});
 
 // Fonction pour obtenir l'image de la carte en fonction du type de météo
 function getCardImage(weather) {
@@ -471,14 +384,14 @@ function getCardImage(weather) {
   }
 }
 
-// Get elements
-const openModalButton = document.getElementById("openModalButton");
-const closeModalButton = document.getElementById("closeModalButton");
-const modal = document.getElementById("modal");
-
 // Open the dialog modal
 openModalButton.addEventListener("click", () => {
   modal.showModal(); // Show the dialog modal
+});
+
+dropDown.addEventListener("change", function () {
+  selectedCity = dropDown.value;
+  var text = dropDown.options[dropDown.selectedIndex].text;
 });
 
 // Close the modal when clicking the close button
@@ -497,5 +410,78 @@ modal.addEventListener("click", (event) => {
 
   if (!isInDialog) {
     modal.close(); // Close if clicked outside
+  }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  postalCodeInput.addEventListener("input", () => {
+    postalCode = postalCodeInput.value;
+
+    if (postalCode.length > 5 || postalCode < 0 || postalCode > 99999) {
+      alert(
+        "Veuillez entrer un code postal valide à 5 chiffres entre 00000 et 99999."
+      );
+      postalCodeInput.value = "";
+    }
+  });
+});
+
+dropDown.addEventListener("change", function () {
+  selectedCity = dropDown.value;
+  var text = dropDown.options[dropDown.selectedIndex].text;
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  display.innerHTML = rangeInput.value;
+
+  rangeInput.addEventListener("input", () => {
+    display.innerHTML = rangeInput.value;
+    dayRange = rangeInput.value;
+  });
+});
+
+postalCodeInput.addEventListener("keypress", function (e) {
+  if (e.key === "Enter") {
+    refreshPostalCode();
+  }
+});
+
+postalCodeButton.addEventListener("click", () => refreshPostalCode());
+
+validateButton.addEventListener("click", async function () {
+  const isPostalCodeFilled = postalCodeInput.value.trim().length === 5;
+  const isDropdownSelected = dropDown.value !== "";
+
+  //console.log(isPostalCodeFilled, isDropdownSelected);
+
+  if (isPostalCodeFilled && isDropdownSelected) {
+    clearChildren(meteoCardContainer);
+
+    let date = new Date();
+    for (let i = 0; i < dayRange; i++) {
+      await getResponse(dropDown.value, i)
+        .then((data) => {
+          const forecast = data.forecast;
+          if (forecast) {
+            makeMeteoCard(
+              data,
+              date.toLocaleDateString("fr-FR", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                timeZone: "UTC",
+              })
+            );
+
+            // OPTIONS
+          }
+        })
+        .catch((data) => console.log("problème : " + data));
+      date.setDate(date.getDate() + 1);
+      //console.log(i);
+      //console.log(date);
+      //date.setDate(date.getDate() + 1);
+    }
   }
 });
