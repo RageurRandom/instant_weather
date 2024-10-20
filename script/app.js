@@ -187,7 +187,7 @@ function makeMeteoCard(data, date) {
         class="mt-6 text-6xl self-center inline-flex items-center justify-center rounded-lg text-indigo-400 h-24 w-24"
         >
         
-        <img src="${getCardImage(forecast.weather)}" alt="clouds">
+        <img src="${getCardImage(forecast.weather)}" alt="${weatherDescriptions[forecast.weather]}">
 
         
         </div>
