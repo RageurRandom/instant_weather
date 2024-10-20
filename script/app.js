@@ -30,7 +30,7 @@ let postalletCode;
 let selectedCity = 0;
 let dayRange = rangeInput.value;
 
-// Dictionnaire des descriptions des codes météo
+// Dictionary of weather code descriptions
 const weatherDescriptions = {
   0: "Soleil",
   1: "Peu nuageux",
@@ -147,7 +147,7 @@ const weatherDescriptions = {
 };
 
 /*
-  ajoute une option au dropdown de séléction de la ville
+  adds an option to the city selection dropdown
 */
 function addOption(value, text) {
   const option = document.createElement("option");
@@ -157,7 +157,7 @@ function addOption(value, text) {
 }
 
 /*
-  Créé une carte météo en html et la mets dans la page
+  Create a weather card in html and put it on the page
 */
 function makeMeteoCard(data, date) {
   const forecast = data.forecast;
@@ -243,7 +243,7 @@ function makeMeteoCard(data, date) {
 }
 
 /*
-  retourne la liste des communes correspondant au code postal en paramètre
+  returns a list of communes corresponding to the parameter postcode
 */
 async function fetchByPostalCode(postalCode) {
   try {
@@ -263,13 +263,14 @@ async function fetchByPostalCode(postalCode) {
         addOption(commune.code, commune.nom);
       });
     }
+    
   } catch (error) {
     console.error("Erreur lors de la récupération des données:", error);
   }
 }
 
 /*
-  renvoie 
+  return weather data of insee code  
 */
 async function getResponse(insee, day) {
   let jsonDoc;
@@ -294,8 +295,8 @@ async function getResponse(insee, day) {
 }
 
 /*
-  retire tous les enfants d'un élément html
-  utilisé pour retirer les cartes météos lors d'une nouvelle recherche
+  removes all the children from an html element
+  - used to remove weather maps from a new search
 */
 function clearChildren(htmlElt) {
   while (htmlElt.firstChild) {
@@ -303,9 +304,8 @@ function clearChildren(htmlElt) {
   }
 }
 
-
 /*
-  mets les communes ayant le code postal recherché dans le dropdown
+  put the towns with the postcode you are looking for in the dropdown
 */
 function refreshPostalCode() {
   postalCode = postalCodeInput.value;
@@ -321,24 +321,27 @@ function refreshPostalCode() {
   }
 }
 
-// Fonction pour obtenir l'image de la carte en fonction du type de météo
-function getCardImage(weather) {
+/*
+  Function for obtaining the map image according to the type of weather
+*/
+ function getCardImage(weather) {
+  // sun
   if (weather == 0) {
-    return "img/sun/26.png"; // soleil
+    return "img/sun/26.png";
   }
-  // soleil et nuages
+  // sun and clouds
   else if (weather >= 1 && weather <= 2) {
     return "img/sun/27.png";
   }
-  // nuages
+  // clouds
   else if (weather >= 3 && weather <= 5) {
     return "img/cloud/35.png";
   }
-  // brouillard
+  // fog
   else if (weather >= 6 && weather <= 9) {
     return "img/sun/6.png";
   }
-  // pluie
+  // rain
   else if (
     (weather >= 10 && weather <= 16) ||
     (weather >= 40 && weather <= 48) ||
@@ -346,7 +349,7 @@ function getCardImage(weather) {
   ) {
     return "img/cloud/7.png";
   }
-  // neige
+  // snow
   else if (
     (weather >= 20 && weather <= 22) ||
     (weather >= 60 && weather <= 68) ||
@@ -354,7 +357,7 @@ function getCardImage(weather) {
   ) {
     return "img/cloud/23.png";
   }
-  // pluie et neige
+  // rain and snow
   else if (
     (weather >= 30 && weather <= 32) ||
     (weather >= 70 && weather <= 78) ||
@@ -362,29 +365,32 @@ function getCardImage(weather) {
   ) {
     return "img/cloud/22.png";
   }
-  // éclairs
+  // lightning
   else if (weather >= 100 && weather <= 108) {
     return "img/cloud/12.png";
   }
-  // éclairs et neige
+  // lightning and snow
   else if ((weather >= 120 && weather <= 128) || weather == 142) {
     return "img/cloud/25.png";
   }
-  // éclairs, neige et pluie
+  // lightning, snow and rain
   else if ((weather >= 130 && weather <= 138) || weather == 141) {
     return "img/cloud/24.png";
   }
-  // éclairs et pluie
+  // lightning and rain
+
   else if (weather == 140) {
     return "img/cloud/17.png";
   }
-  // grêle
+  // hail
   else if (weather == 235) {
     return "img/rain/39.png";
   }
 }
 
-// Open the dialog modal
+/* 
+  Open the dialog modal
+*/
 openModalButton.addEventListener("click", () => {
   modal.showModal(); // Show the dialog modal
 });
@@ -394,12 +400,16 @@ dropDown.addEventListener("change", function () {
   var text = dropDown.options[dropDown.selectedIndex].text;
 });
 
-// Close the modal when clicking the close button
+/*
+  Close the modal when clicking the close button
+*/
 closeModalButton.addEventListener("click", () => {
   modal.close(); // Close the modal
 });
 
-// Close the modal when clicking outside of it (optional)
+/*
+ Close the modal when clicking outside of it (optional)
+*/
 modal.addEventListener("click", (event) => {
   const rect = modal.getBoundingClientRect();
   const isInDialog =
@@ -455,6 +465,7 @@ validateButton.addEventListener("click", async function () {
   //console.log(isPostalCodeFilled, isDropdownSelected);
 
   if (isPostalCodeFilled && isDropdownSelected) {
+    changeSearchButton.classList.remove("hidden");
     clearChildren(meteoCardContainer);
 
     let date = new Date();
@@ -483,6 +494,8 @@ validateButton.addEventListener("click", async function () {
       //console.log(date);
       //date.setDate(date.getDate() + 1);
     }
+  } else {
+    changeSearchButton.classList.add("hidden");
   }
 });
 
@@ -501,10 +514,8 @@ function saveToLocalStorage() {
 
 // Load values from localStorage and populate inputs
 function loadFromLocalStorage() {
-  // Retrieve and set values, if they exist in localStorage
   const savedPostalCode = localStorage.getItem("postalCode");
   const savedRangeInput = localStorage.getItem("rangeInput");
-  const savedDayRange = localStorage.getItem("dayRange");
   const savedLatd = localStorage.getItem("latd");
   const savedLond = localStorage.getItem("lond");
   const savedCumul = localStorage.getItem("cumul");
@@ -513,17 +524,23 @@ function loadFromLocalStorage() {
   const savedSelectedCity = localStorage.getItem("selectedCity");
 
   if (savedPostalCode) postalCodeInput.value = savedPostalCode;
-  if (savedRangeInput) rangeInput.value = savedRangeInput;
-  if (savedDayRange) dayRange = savedDayRange;                 // Retrieve dayRange value
-  if (savedLatd !== null) latd.checked = JSON.parse(savedLatd); // Convert back to boolean
-  if (savedLond !== null) lond.checked = JSON.parse(savedLond); // Convert back to boolean
-  if (savedCumul !== null) cumul.checked = JSON.parse(savedCumul); // Convert back to boolean
-  if (savedVentm !== null) ventm.checked = JSON.parse(savedVentm); // Convert back to boolean
-  if (savedVentd !== null) ventd.checked = JSON.parse(savedVentd); // Convert back to boolean
-  if (savedSelectedCity) dropDown.value = savedSelectedCity;
+  
+  if (savedRangeInput) {
+    rangeInput.value = savedRangeInput;
+    dayRange = savedRangeInput;  // Update dayRange with saved value
+    // display the range
+    document.getElementById("affichage").innerText = savedRangeInput; 
+  }
+
+  if (savedLatd !== null) latd.checked = JSON.parse(savedLatd);
+  if (savedLond !== null) lond.checked = JSON.parse(savedLond);
+  if (savedCumul !== null) cumul.checked = JSON.parse(savedCumul);
+  if (savedVentm !== null) ventm.checked = JSON.parse(savedVentm);
+  if (savedVentd !== null) ventd.checked = JSON.parse(savedVentd);
+
 }
 
-// Save changes to localStorage when inputs are changed
+// Event listeners to save changes to localStorage
 postalCodeInput.addEventListener("input", saveToLocalStorage);
 rangeInput.addEventListener("input", () => {
   dayRange = rangeInput.value;  // Update dayRange when the range input changes
@@ -538,4 +555,3 @@ dropDown.addEventListener("change", saveToLocalStorage);
 
 // Load the saved values when the page is loaded
 document.addEventListener("DOMContentLoaded", loadFromLocalStorage);
-
