@@ -396,7 +396,7 @@ function getCardImage(weather) {
   }
   // soleil et nuages
   else if (weather >= 1 && weather <= 2) {
-    return "img/cloud/27.png";
+    return "img/sun/27.png";
   }
   // nuages
   else if (weather >= 3 && weather <= 5) {
@@ -404,7 +404,7 @@ function getCardImage(weather) {
   }
   // brouillard
   else if (weather >= 6 && weather <= 9) {
-    return "img/cloud/35.png"; // besoin d'une autre icône
+    return "img/sun/6.png";
   }
   // pluie
   else if (
