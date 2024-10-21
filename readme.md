@@ -48,11 +48,7 @@ Les principaux fichiers de ce projet sont :
 L'application utilise des API externes pour récupérer les données météo :
 
 - **Geo API** : Récupère les informations sur les communes en fonction du code postal saisi.
-  - **URL** : `https://geo.api.gouv.fr/communes?codePostal={codePostal}`
-
 - **Meteo-Concept API** : Récupère les prévisions météo pour la commune sélectionnée.
-  - **URL** : `https://api.meteo-concept.com/api/forecast/daily/`
-  - **Token** : Un jeton d'API valide est requis et stocké dans le fichier `app.js`.
 
 ## Stockage local
 
